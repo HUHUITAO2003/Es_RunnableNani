@@ -19,9 +19,9 @@ public class Operazione2 implements Runnable {
 
     @Override
     public void run() {
-        //es.1 dati.y=7*dati.b+3;
+         dati.y=7*dati.b+3;
         //es.2 dati.y = 5 * dati.b - 7;
-        dati.y = 5 - 2*dati.c;
+        //dati.y = 5 - 2*dati.c;
         System.out.println("Ho calcolato y: " + dati.y);
     }
 

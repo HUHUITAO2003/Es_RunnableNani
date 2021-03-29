@@ -20,20 +20,41 @@ public class CalcoloPJoin {
         Thread thr4= new Thread(new Operazione4(dati));
         Thread thr5= new Thread(new Operazione5(dati));
         
+        /*saluzione1*/
+        thr1.start(); //x=2a+4
+        thr2.start(); //y=7b+3
+        thr1.join(); 
+        thr2.join();
+        thr3.start(); //z=x*y
+        thr3.join();
+        thr4.start(); //t=5*z
+        thr4.join();
+        thr5.start(); //k=t-10c
+        thr5.join();
+        
+        /* soluzione2
         thr1.start();
         thr2.start();
-        
+        thr3.start();
         thr1.join();
         thr2.join();
-        
-        thr3.start();
         thr3.join();
-        
         thr4.start();
         thr4.join();
-        
         thr5.start();
-        thr5.join();
+        thr5.join();*/
+        
+        /*
+        thr1.start();
+        thr2.start();
+        thr3.start();
+        thr1.join();
+        thr2.join();
+        thr3.join();
+        thr4.start();
+        thr4.join();
+        thr5.start();
+        thr5.join();*/
         
     }
 }
