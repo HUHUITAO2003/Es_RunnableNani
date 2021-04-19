@@ -9,8 +9,7 @@ package BagniRistorante;
  *
  * @author juliet
  */
-public class Bagno {
-    long time=0; 
+public class Bagno { 
     public synchronized void Occupato() throws InterruptedException{
         System.out.println(Thread.currentThread().getName()+" è nel bagno");
         Thread.sleep((long)(Math.random()*10000));
