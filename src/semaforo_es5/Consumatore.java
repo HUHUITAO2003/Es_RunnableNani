@@ -5,7 +5,7 @@
  */
 package semaforo_es5;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,20 +14,19 @@ import java.util.logging.Logger;
  * @author juliet
  */
 public class Consumatore implements Runnable{
-    int i;
     String nome;
-    LinkedBlockingQueue<Integer> link;
+    BlockingQueue<Integer> link;
     
-    public Consumatore(String nome, LinkedBlockingQueue<Integer> link) {
+    public Consumatore(String nome, BlockingQueue<Integer> link) {
         this.nome = nome;
         this.link=link;
     }
     
     @Override
     public void run() {
-        for(int j=0;j<10;j++) {
+        while(true) {
             try {
-                Object i=link.take();
+                int i=link.take();
                 System.out.println("Lettore: "+nome+" dato letto :" + i);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Consumatore.class.getName()).log(Level.SEVERE, null, ex);
