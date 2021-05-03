@@ -27,9 +27,7 @@ public class Produttore implements Runnable {
     @Override
     public void run() {
         Random rand = new Random();
-        int f=0;
         for(int j=0;j<3;j++){
-            f++;
                 int i=rand.nextInt(20);
                 System.out.println("Scrittore: " + nome + " dato scritto :" + i);
             try {
@@ -37,7 +35,6 @@ public class Produttore implements Runnable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Produttore.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 }
