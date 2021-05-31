@@ -22,7 +22,7 @@ public class Campo extends JPanel{
     
     
     public void paint(Graphics g){
-        g.setColor(Color.green);
+        g.setColor(new Color(103, 199, 115));
         g.fillRect(0, 0, 1000, corsie*80); //campo generale
         g.setColor(Color.white);
         
