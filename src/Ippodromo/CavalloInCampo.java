@@ -13,45 +13,53 @@ import java.util.logging.Logger;
  *
  * @author informatica
  */
-public class CavalloInCampo implements Runnable{
-    Cavallo cavallo;
-    GaraCavalli campo;
+public class CavalloInCampo implements Runnable {
+
+    Cavallo cavallo; //immagine del cavallo
+    GaraCavalli campo; 
     int velocita;
     Thread t;
-    int conta;
+    int conta;  //conteggio di spostamenti
     int posizione;
-    
-    public CavalloInCampo(Cavallo c,GaraCavalli ca){
-        cavallo=c;
-        campo=ca;
-        conta=0;
-        velocita=2;
-        t=new Thread(this);
+    int corsia;
+
+    public CavalloInCampo(Cavallo cavallo, GaraCavalli garacavalli, int corsia) {
+        this.cavallo = cavallo;
+        this.campo = garacavalli;
+        this.corsia = corsia;
+        conta = 0; //numero spostamenti
+        velocita = 0;
+        t = new Thread(this);
         t.start();
-        posizione=0;
-    
+        posizione = 0;
     }
+
     @Override
     public void run() {//animazione del cavallo
-        int dimImmagine = 79;
+        int dimImmagine = 70;
         int dimPista = 960;
-        while((cavallo.getCordx() + dimImmagine) < dimPista){
-            if((conta % 10)==0){
-                velocita=(int) (Math.random()*4 + 1);
+        while ((cavallo.getCordx() + dimImmagine) < dimPista) {
+            if ((conta % 5) == 0) { //ogni 5 spostamenti un cambiamento di velocita
+                velocita = (int) (Math.random() * 100 + 1);
             }
-            cavallo.setCordx(cavallo.getCordx()+velocita);
+            int luogo = cavallo.getCordx() + velocita;
+
+            if (luogo + dimImmagine > dimPista) { //i cavalli si fermino sulla stessa fine
+                luogo = dimPista - dimImmagine;
+            }
+            cavallo.setCordx(luogo); 
             conta++;
 
-            try {sleep(1000);
+            try {
+                sleep(75);
             } catch (InterruptedException ex) {
                 Logger.getLogger(CavalloInCampo.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             campo.repaint();
         }
-        
-        posizione = campo.getPosizione();
-        campo.ControlloArrivi();
+
+        posizione = campo.Classifica(corsia);
     }
-    
+
 }

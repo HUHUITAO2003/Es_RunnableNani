@@ -12,84 +12,67 @@ import java.awt.*;
  */
 public class GaraCavalli extends JFrame{
     int posizione;
+    int corsie;
     Cavallo[] cavalli;
     CavalloInCampo[] ThreadCavalli;
     Campo pista;
     Graphics offscreen;
     Image buffer_virtuale;
+    JLabel[] arrivi;
     
-    public GaraCavalli(){
+    public GaraCavalli(int corsie){
         super("Cara Cavalli!");
-        setSize(1000, 600);
-        setLocation(10, 40);
+        this.corsie=corsie;
+        setSize(1000, 20+corsie*80);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        pista = new Campo();
-        cavalli = new Cavallo[6];
-        ThreadCavalli = new CavalloInCampo[6];
+        pista = new Campo(corsie);
+        cavalli = new Cavallo[corsie];
+        ThreadCavalli = new CavalloInCampo[corsie];
         posizione = 1;
-        int partenza = 15;
-        for(int xx=0;xx<6;xx++){
-            cavalli[xx]=new Cavallo(partenza, xx+1);
-            ThreadCavalli[xx]= new CavalloInCampo(cavalli[xx],this);
-            partenza += 100;
+        for(int i=0;i<corsie;i++){
+            cavalli[i]=new Cavallo(7+i*80, i+1);
+            ThreadCavalli[i]= new CavalloInCampo(cavalli[i],this, i);
         }
+        arrivi = new JLabel[corsie];
         this.add(pista);
         setVisible(true);
     }
     
-    public synchronized int getPosizione(){
+    public synchronized int Classifica(int corsia){
+        arrivi[posizione-1]= new JLabel(posizione + "° cavallo classificato nella "+(corsia+1)+"° corsia");
+        if(posizione==corsie){
+            visualizzaClassifica();
+        }
         return posizione++;
     }
     
-    public synchronized void ControlloArrivi(){
-        boolean arrivati = true;
-        for(int xx=0;xx<6;xx++){
-            if(ThreadCavalli[xx].posizione==0){
-                arrivati = false;
-            }
-        }
-        if(arrivati){
-            visualizzaClassifica();
-        }
-    }
-    
     public void visualizzaClassifica(){
-        JLabel[] arrivi = new JLabel[4];
         JFrame classifica = new JFrame("Classifica");
-        classifica.setBounds(260, 110, 500, 500);
-        classifica.setBackground(Color.BLUE);
+        classifica.setBounds(500, 200, 300, corsie*50);
         classifica.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        classifica.getContentPane().setLayout(new GridLayout(6,1));
-        
-        for(int i = 0; i < 7 ; i++){
-            for(int j = 0; j<6 ; j++){
-                arrivi[j]= new JLabel(i + "Classificato cavallo in "+(j+1)+" corsia");
-                classifica.getContentPane().add(arrivi[j]);
-            }
+        classifica.getContentPane().setLayout(new GridLayout(corsie,1));
+ 
+        for(int j = 0; j<arrivi.length; j++){
+            classifica.getContentPane().add(arrivi[j]);
         }
-        
+        classifica.setVisible(true);
     }
-    
-    public void update(Graphics g){
-        paint(g);
-    }
+
     
     public void paint(Graphics g){
         if(cavalli != null){
             Graphics2D screen = (Graphics2D)g;
-            buffer_virtuale = createImage(1000, 645);
+            buffer_virtuale = createImage(1000, corsie*80);
             offscreen = buffer_virtuale.getGraphics();
             Dimension d = getSize();
             pista.paint(offscreen);
-            for(int i=0;i<6;i++){
+            for(int i=0;i<corsie;i++){
                 cavalli[i].paint(offscreen);
             }
             screen.drawImage(buffer_virtuale, 0, 20, this);
             offscreen.dispose();
         }
     }
-    
-    public static void main(String[] a){
-        GaraCavalli m = new GaraCavalli();
-    }
+
 }   
