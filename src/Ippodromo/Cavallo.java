@@ -16,11 +16,18 @@ import java.util.logging.Logger;
  */
 public class Cavallo extends JPanel {
 
-    int cordx;
-    int cordy;
-    Image img;
+    int cordx; //coordinata del cavallo sull'asse x
+    int cordy; //coordinata del cavallo sull'asse y
+    Image img; //immagine del cavallo
 
-    public Cavallo(int y, int x) {// rappresenta un cavallo nello schermo
+    
+    /**
+     * costruttore per rappresentare l'immagine del cavallo sul campo
+     *
+     * @param y coordinata y su dove verra posizionato il cavallo
+     * @param x quale corsie appartiene il cavallo, da qui dipende il colore dello sfondo del cavallo
+     */
+    public Cavallo(int y, int x) {
         cordx = 0;
         cordy = y;
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -46,14 +53,29 @@ public class Cavallo extends JPanel {
         }
     }
 
+    
+    /**
+     * metodo per ottenere la coordinata x, ovvero la posizione del cavallo
+     *
+     */
     public int getCordx() {
         return cordx;
     }
 
+    /**
+     * metodo per modificare la coordinata x, ovvero la posizione del cavallo
+     * @param cordx nuova posizione del cavallo sul campo
+     */
     public void setCordx(int cordx) {
         this.cordx = cordx;
     }
 
+    
+    /**
+     * metodo per "disegnare" l'immagine del cavallo sul campo
+     *
+     * @param g instanza per "disegnare" sul JPanel
+     */
     public void paint(Graphics g) {
         g.drawImage(img, cordx, cordy, 70, 70, null);
     }

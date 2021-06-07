@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Ippodromo;import javax.swing.*;
+package Ippodromo;
+
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -11,15 +13,21 @@ import java.awt.*;
  * @author informatica
  */
 public class GaraCavalli extends JFrame{
-    int posizione;
-    int corsie;
-    Cavallo[] cavalli;
-    CavalloInCampo[] ThreadCavalli;
-    Campo pista;
-    Graphics offscreen;
-    Image buffer_virtuale;
-    JLabel[] arrivi;
+    int posizione; //prima posizione da assegnare 
+    int corsie; //numero di cavalli che corrono
+    Cavallo[] cavalli; //Array delle immagini dei cavalli
+    CavalloInCampo[] ThreadCavalli; //Array dei cavalli che "corrono"
+    Campo pista; //campo dove i cavalli "corrono"
+    Graphics offscreen; //per gestione del doppio buffering
+    Image buffer_virtuale; //immagine del campo
+    JLabel[] arrivi; //Array di JLabel per la classifica
     
+    
+    /**
+     * costruttore per gestire il movimento dell'immagini dei cavallo e della classifica della gara
+     *
+     * @param corsie numero di corsie occupate
+     */
     public GaraCavalli(int corsie){
         super("Cara Cavalli!");
         this.corsie=corsie;
@@ -39,14 +47,23 @@ public class GaraCavalli extends JFrame{
         setVisible(true);
     }
     
+    /**
+     * metodo per aggiungere alla classifica un cavallo visualizzando posizione e corsia
+     *
+     * @param corsia corsia di appartenenza del cavallo
+     */
     public synchronized int Classifica(int corsia){
         arrivi[posizione-1]= new JLabel(posizione + "° cavallo classificato nella "+(corsia+1)+"° corsia");
-        if(posizione==corsie){
+        if(posizione==corsie){ //richiamo della visualizzazione della classifica appena la posizione di un cavallo è uguale al numero di corsie create
             visualizzaClassifica();
         }
         return posizione++;
     }
     
+    /**
+     * metodo per visualizzazione della classifica
+     *
+     */
     public void visualizzaClassifica(){
         JFrame classifica = new JFrame("Classifica");
         classifica.setBounds(500, 200, 300, corsie*50);
@@ -59,20 +76,22 @@ public class GaraCavalli extends JFrame{
         classifica.setVisible(true);
     }
 
-    
+     /**
+     * metodo per realizzare il campo dove i cavalli corrono
+     *
+     * @param g instanza per "disegnare" sul JPanel
+     */
     public void paint(Graphics g){
-        if(cavalli != null){
-            Graphics2D screen = (Graphics2D)g;
-            buffer_virtuale = createImage(1000, corsie*80);
-            offscreen = buffer_virtuale.getGraphics();
-            Dimension d = getSize();
-            pista.paint(offscreen);
-            for(int i=0;i<corsie;i++){
-                cavalli[i].paint(offscreen);
-            }
-            screen.drawImage(buffer_virtuale, 0, 20, this);
-            offscreen.dispose();
+        Graphics2D screen = (Graphics2D)g;
+        buffer_virtuale = createImage(1000, corsie*80);
+        offscreen = buffer_virtuale.getGraphics();
+        Dimension d = getSize();
+        pista.paint(offscreen);
+        for(int i=0;i<corsie;i++){
+            cavalli[i].paint(offscreen);
         }
+        screen.drawImage(buffer_virtuale, 0, 20, this);
+        offscreen.dispose();
     }
 
 }   

@@ -12,10 +12,7 @@ package Ippodromo;
 import java.awt.*;
 import java.awt.event.*;
 import static java.lang.Thread.sleep;
-import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 import javax.swing.*;
 
 /**
@@ -24,13 +21,18 @@ import javax.swing.*;
  */
 public class Inserimento extends JFrame {
 
-    Container c = new Container();
-    public JPanel panel = new JPanel();
+    Container c = new Container(); //Container che conterrà tutta l'interfaccia.
+    public JPanel panel = new JPanel(); //pannello che conterra i componeneti grafici
 
-    public JLabel l = new JLabel("Quanti cavalli devono gareggiare? ");
-    public JTextField t = new JTextField();
-    public JButton conferma = new JButton("Conferma");
+    public JLabel l = new JLabel("Quanti cavalli devono gareggiare? "); //sezione output di una stringa
+    public JTextField t = new JTextField(); //sezione di input per scegliere quanti cavalli devogo correre
+    public JButton conferma = new JButton("Conferma"); //bottono per avviare la corsa
 
+    
+    /**
+     * costruttore per l'inserimento di quanti cavalli far correre
+     *
+     */
     public Inserimento() {
 
         c = this.getContentPane();
@@ -48,13 +50,17 @@ public class Inserimento extends JFrame {
         panel.add(l);
         panel.add(t);
         panel.add(conferma);
-
         c.add(panel);
-        conferma.addMouseListener(new EventoMouse());
+        conferma.addMouseListener(new EventoMouse()); //aggiunta di un mouse listener che esegua una certa azione una volta verificatasi un evento con il mouse
     }
 
     private class EventoMouse implements MouseListener {
 
+        /**
+        * metodo per scegliere il numero di cavalli da far correre e controllo che il contenuto sia corretto
+        *
+        * @param e evento del mouse verificatosi
+        */
         @Override
         public void mouseClicked(MouseEvent e) { //inserimento delle corsie e controlli del contenuto
                     int n;
@@ -84,7 +90,7 @@ public class Inserimento extends JFrame {
         public void mouseExited(MouseEvent e) {
         }
     }
-
+    
     public static void main(String[] a) {
         Inserimento i = new Inserimento();
     }
